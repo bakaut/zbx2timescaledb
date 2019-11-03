@@ -1,0 +1,16 @@
+LOAD DATABASE
+  FROM mysql://zabbix2:zabbix@127.0.0.1/zabbix
+  INTO postgresql://zabbix:zabbix@127.0.0.1/zabbix
+WITH include no drop,
+     truncate,
+     create no tables,
+     create no indexes,
+     no foreign keys,
+     reset sequences,
+     data only
+SET MySQL PARAMETERS
+    max_execution_time  = '0'
+SET maintenance_work_mem TO '1024MB', work_mem to '512MB'
+ALTER SCHEMA 'zabbix' RENAME TO 'public'
+EXCLUDING TABLE NAMES MATCHING ~/history.*/, ~/trend.*/
+BEFORE LOAD EXECUTE create.sql;
