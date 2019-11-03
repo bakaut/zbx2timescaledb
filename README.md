@@ -1,7 +1,7 @@
-Migration toolkit for zbx version 4.0 mysql version to zbx 4.4 pgsql timescaledb version
+Migration toolkit from zbx 4.0 mysql to zbx 4.4 pgsql timescaledb
 ----
 
-This repo allow you check mirgation procedure whisout risks
+This repo allow you check mirgation procedure without  risks
 
 Infrastructure:
 * all of zabbix components separate to different hosts
