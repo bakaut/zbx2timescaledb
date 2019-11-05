@@ -45,6 +45,24 @@ RUN mkdir -p /opt/src/pgloader/build/bin \
     && cd /opt/src/pgloader \
     && make CL=$CL_VERSION DYNSIZE=$PGLOADER_MEMORY_MB clones save
 
+FROM debian:stable-slim
 
-FROM alpine
 COPY --from=builder /opt/src/pgloader/build/bin/pgloader /usr/local/bin
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    postgresql-client \
+    default-mysql-client-core  \
+    curl \
+    freetds-dev \
+    gawk \
+    libsqlite3-dev \
+    libzip-dev \
+    make \
+    sbcl \
+    tzdata \
+    unzip && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN echo "Europe/Moscow" > /etc/timezone
+RUN dpkg-reconfigure -f noninteractive tzdata

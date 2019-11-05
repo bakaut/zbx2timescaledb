@@ -1,2 +1,2 @@
 build:
-	@docker build . -t pgloader-bin
+	@docker build . -t pgloader-base

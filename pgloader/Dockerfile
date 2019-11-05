@@ -1,26 +1,7 @@
-FROM debian:stable-slim
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    postgresql-client \
-    default-mysql-client-core  \
-    curl \
-    freetds-dev \
-    gawk \
-    libsqlite3-dev \
-    libzip-dev \
-    make \
-    sbcl \
-    tzdata \
-    unzip && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN echo "Europe/Moscow" > /etc/timezone
-RUN dpkg-reconfigure -f noninteractive tzdata
+FROM pgloader-base
 
 RUN mkdir /opt/migration/
 
-COPY --from=pgloader-bin /usr/local/bin/pgloader /usr/local/bin/pgloader
 COPY --from=zbx-source /opt/migration/ /opt/migration/
 
 WORKDIR /opt/migration

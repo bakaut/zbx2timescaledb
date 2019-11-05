@@ -1,0 +1,39 @@
+name: Docker Image CI
+
+on: [release]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build docker image pgloader and push
+      run: |
+        BASE_IMAGE="$REGISTRY/$GITHUB_REPOSITORY/$PACKAGE"
+        docker login $REGISTRY --username $GITHUB_ACTOR --password ${{ secrets.GITHUB_DOCKER }}
+        docker pull $BASE_IMAGE:$TAG || true
+        cd pgloader/builder
+        docker build --cache-from $BASE_IMAGE:$TAG . --tag $PACKAGE
+        docker tag $PACKAGE $BASE_IMAGE:$TAG
+        docker push $BASE_IMAGE:$TAG
+      env:
+        REGISTRY: docker.pkg.github.com
+        PACKAGE: pgloader
+        TAG: v3.6.1.ccl
+
+    - name: Build docker image pg_chameleon and push
+      run: |
+        BASE_IMAGE="$REGISTRY/$GITHUB_REPOSITORY/$PACKAGE"
+        docker login $REGISTRY --username $GITHUB_ACTOR --password ${{ secrets.GITHUB_DOCKER }}
+        docker pull $BASE_IMAGE:$TAG || true
+        cd pgmigration/builder
+        docker build --cache-from $BASE_IMAGE:$TAG . --tag $PACKAGE
+        docker tag $PACKAGE $BASE_IMAGE:$TAG
+        docker push $BASE_IMAGE:$TAG
+      env:
+        REGISTRY: docker.pkg.github.com
+        PACKAGE: pg_chameleon
+        TAG: v2.0.9
