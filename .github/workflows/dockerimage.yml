@@ -20,7 +20,7 @@ jobs:
         docker push $BASE_IMAGE:$TAG
       env:
         REGISTRY: docker.pkg.github.com
-        PACKAGE: pgloader
+        PACKAGE: pgloaders
         TAG: v3.6.1.ccl
 
     - name: Build docker image pg_chameleon and push
@@ -34,5 +34,5 @@ jobs:
         docker push $BASE_IMAGE:$TAG
       env:
         REGISTRY: docker.pkg.github.com
-        PACKAGE: pg_chameleon
+        PACKAGE: pg_chameleons
         TAG: v2.0.9
