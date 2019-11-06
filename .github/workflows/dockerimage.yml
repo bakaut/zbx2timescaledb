@@ -1,5 +1,4 @@
 name: Docker Image CI
-
 on: [push]
 
 jobs:
@@ -29,7 +28,7 @@ jobs:
         BASE_IMAGE="$REGISTRY/$GITHUB_REPOSITORY/$PACKAGE"
         docker login $REGISTRY --username $GITHUB_ACTOR --password ${{ secrets.GITHUB_DOCKER }}
         docker pull $BASE_IMAGE:$TAG || true
-        cd pgmigration/builder
+        cd pgmigration
         docker build --cache-from $BASE_IMAGE:$TAG . --tag $PACKAGE
         docker tag $PACKAGE $BASE_IMAGE:$TAG
         docker push $BASE_IMAGE:$TAG
